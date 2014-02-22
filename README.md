@@ -17,7 +17,9 @@ resultados obtenidos.
 ##Especificaciones
 
 >Se generarán aleatoriamente los polinomios sobre los que se realiza el estudio.
-El estudio comparativo debe realizarse con el **algoritmo clásico**.
+El estudio comparativo debe realizarse con el siguiente algoritmo.
+
+![](img/algoritmo.png)
 
 ###Especificaciones:###
 
@@ -25,4 +27,4 @@ El estudio comparativo debe realizarse con el **algoritmo clásico**.
 polinomios. Debe añadirse a la clase Monomio los operadores que se consideren
 necesarios.
 
-![](img/algoritmo.png)
+![](img/monomio.png)
