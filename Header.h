@@ -1,0 +1,20 @@
+#include <stdio.h>		// Cabecera que contendrá el procedimiento sprintf
+#include <iostream>		// Cabecera que tendrá la E/S mediante flujo
+#include <math.h>       /* pow */
+#include <fstream>		// Cabecera que tendrá la E/S por ficheros
+#include <string>		// Cabecera para manejar cadenas
+#include <dos.h>        // necesario para _argc y argv
+#include <vector>		// Cabecera para manejar un vector
+#include <conio.h>
+#include <ctype.h>		// Cabecera que me dejará utilizar las funciones toupper y tolower
+#include "Monomio.h"	// Clase que maneja los monomios
+
+
+//========================================================================================
+// Definición de tipos
+//========================================================================================
+
+typedef int item;						/** Tipo de dato que almacenará cada elemento de la matriz. */
+typedef unsigned short int index;		/** Tipo de dato para índices de la matriz. */
+
+using namespace std;
