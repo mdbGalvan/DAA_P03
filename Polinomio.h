@@ -8,11 +8,14 @@
 class Polinomio {
 	private:
 		int gr_;								// Grado del Polinomio
-		int ter_;								// Número de términos en el polinomio
-		Monomio m_[100];						// Array de coeficientes
+		int *coef_;								// Array de coeficientes
+
+		void nulo();							// Convierte todos los coeficientes a 0
+		void liberar();							// Liberar memoria para m_
+		void reservar(int n);					// Reservar memoria para coef_ 
 	public:
 		Polinomio();							// Constructor por defecto, gr = 10
-		Polinomio(const int ter);				// Constructor fijando el grado
+		Polinomio(const int gr);				// Constructor fijando el grado
 		Polinomio(int coef[], const int tam);	// Constructor con vector de coeficientes
 		Polinomio(const Polinomio &p);			// Constructor copia
 
@@ -23,7 +26,6 @@ class Polinomio {
 		friend istream& operator>>(istream &sin, Polinomio &p);
 		// Operadores +, -, *, /
 		Polinomio operator+(const Polinomio &p);
-		Polinomio operator-(const Polinomio &p);
 		Polinomio operator*(const Polinomio &p);
 		~Polinomio();
 };

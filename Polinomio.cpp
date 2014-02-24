@@ -1,50 +1,70 @@
 #include "Polinomio.h"
 
+
+// Liberar memoria para coef_
+void Polinomio::nulo(){
+	for (int i = 0; i < gr_ + 1; i++)
+		coef_[i] = 0;
+}
+
+// Reservar memoria para coef_
+void Polinomio::reservar(int n){
+	coef_ = new (nothrow)int[n];
+	if (!coef_) {
+		cerr << "Error: no hay memoria";
+		exit(1);
+	}
+}
+
+// Liberar memoria para coef_
+void Polinomio::liberar(){
+	delete[] coef_;
+}
+
 // CONSTRUCTORES
 Polinomio::Polinomio()
 {
 	gr_ = 0;
-	ter_ = 0;	
+	reservar(gr_ + 1);
+	nulo();
 }
 
-Polinomio::Polinomio(const int ter)
+Polinomio::Polinomio(const int gr)
 {
-	gr_ = 0;
-	ter_ = ter;
-	m_[ter_];
+	gr_ = gr;
+	reservar(gr_ + 1);
+	nulo();
 }
 
 // Constructor Copia
 Polinomio::Polinomio(const Polinomio &p)
 {
 	gr_ = p.gr_;
-	ter_ = p.ter_;
-	m_[ter_];
+	reservar(gr_ + 1);
 
-	for (int i = 0; i < ter_; i++) m_[i] = p.m_[i];
+	for (int i = 0; i < gr_ + 1; i++) coef_[i] = p.coef_[i];
 }
 
 // Constructor con vector de coeficientes
 Polinomio::Polinomio(int coef[], const int tam)
 {
 	gr_ = tam - 1;
-	ter_ = tam;
-	m_[tam];
+	reservar(tam);
 
-	for (int i = 0; i < tam; i++) {
-		if (coef[i] != 0) {					// Si coef = 0, entonces no lo ingreso
-			m_[i].setExp(i);				// Exp. Monomio
-			m_[i].setCoef(coef[i]);			// Coef. Monomio
-		}
-	}
+	for (int i = 0; i < tam; i++)
+		coef_[i] = coef[i];
 }
 
 int Polinomio::Evaluar(int x) const
 {
 	int aux = 0;							// Almacenará x^exp
+	Monomio m;
 
-	for (int i = 0; i < ter_; i++)
-		aux += m_[i].Evaluar(x);
+	for (int i = 0; i < gr_ + 1; i++) {
+		m.setCoef(coef_[i]);
+		m.setExp(i);
+		aux += m.Evaluar(x);
+	}
 
 	return aux;
 }
@@ -52,8 +72,13 @@ int Polinomio::Evaluar(int x) const
 // Operadores de inserción y extracción
 ostream& operator<<(ostream &sout, const Polinomio&p)
 {
-	for (int i = 0; i < p.ter_; i++)
-		sout << p.m_[i];
+	Monomio m;
+
+	for (int i = 0; i < p.gr_ + 1; i++){
+		m.setCoef(p.coef_[i]);
+		m.setExp(i);
+		sout << m;
+	}
 
 	return sout;
 }
@@ -61,52 +86,55 @@ ostream& operator<<(ostream &sout, const Polinomio&p)
 istream& operator>>(istream &sin, Polinomio &p)
 {
 	int aux;
-	p.gr_ = 0;
-	cout << "\tN\247 de t\202rminos: ";
-	sin >> p.ter_;
-	for (int i = 0; i < p.ter_; i++) {
-		cout << "\tCoeficiente [" << i << "]: ";
+
+	cout << "\tGrado: ";
+	sin >> p.gr_;
+	p.liberar();
+	p.reservar(p.gr_ + 1);
+
+	for (int i = 0; i < p.gr_ + 1; i++) {
+		cout << "\tP[" << i << "]: ";
 		sin >> aux;
-		p.m_[i].setCoef(aux);
-		cout << "\tExponente [" << i << "]: ";
-		sin >> aux;
-		p.m_[i].setExp(aux);
-		if (p.m_[i].getExp() > p.gr_)
-			p.gr_ = p.m_[i].getExp();
+		p.coef_[i] = aux;
 	}
+
 	return sin;
 }
 
 // Operadores sobrecargados
 Polinomio Polinomio::operator+(const Polinomio &p) {
-	
-	Polinomio aux;
+	int maxGr = 0;
 
-	for (int i = 0; i < this->ter_; i++)
-	for (int j = 0; j < this->ter_; j++) {
-		if (this->m_[i].getExp() == p.m_[j].getExp())
-			aux = 
+	(this->gr_ > p.gr_) ? maxGr = this->gr_ : maxGr = p.gr_;
+	Polinomio aux(maxGr);
+
+	for (int i = 0; i < maxGr + 1; i++) {
+		if ((i < this->gr_ + 1) && (i < p.gr_ + 1))
+			aux.coef_[i] = this->coef_[i] + p.coef_[i];
+		else if (i < p.gr_ + 1)
+			aux.coef_[i] = p.coef_[i];
+		else
+			aux.coef_[i] = this->coef_[i];
 	}
-
 
 	return aux;
 }
 
-Polinomio Polinomio::operator-(const Polinomio &p) {
-
-}
-
 Polinomio Polinomio::operator*(const Polinomio &p) {
+	Polinomio aux(this->gr_ + p.gr_);
+	aux.nulo();
 
-}
+	for (int i = 0; i < aux.gr_; i++)
+	for (int j = 0; j < i; j++) {
+		aux.coef_[i] += this->coef_[j] + p.coef_[i - j];
+	}
 
-Polinomio Polinomio::operator*(const int c) {
-
+	return aux;
 }
 
 // DESTRUCTOR
 Polinomio::~Polinomio()
 {
-	ter_ = 0;
 	gr_ = 0;
+	liberar();
 }

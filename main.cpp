@@ -5,9 +5,9 @@
 int main(int argc, char* argv[]) {
 
 
-	Polinomio p;
-	cin >> p;
-	cout << p;
+	Polinomio p, q;
+	cin >> p >> q;
+	cout << (p * q);
 
 
 	cin.ignore();

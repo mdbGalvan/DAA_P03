@@ -65,8 +65,8 @@ ostream& operator<<(ostream &sout, const Monomio&s)
 	if (s.getCoef() > 0) sout << "+";
 	if (s.getExp() == 1)
 		sout << s.getCoef() << "x";
-	//else if (s.getExp() == 0)
-	//	sout << "";
+	else if (s.getExp() == 0)
+		sout << "";
 	else
 		sout << s.getCoef() << "x^" << s.getExp();
 
