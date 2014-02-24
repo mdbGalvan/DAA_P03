@@ -1,31 +1,34 @@
 #include "Monomio.h"
 
 Monomio::Monomio() :
-	coef_(0),
-	exp_(0)
+coef_(0),
+exp_(0)
 {}
 
 // Constructor con Coeficiente y Exponente
 Monomio::Monomio(int coef, int exp) :
-	coef_(coef),
-	exp_(exp)
+coef_(coef),
+exp_(exp)
 {}
 
+Monomio::Monomio(const Monomio &s)
+{
+	coef_ = s.getCoef();
+	exp_ = s.getExp();
+}
 
 // Evalua un monomio en un punto
 int Monomio::Evaluar(int x) const
 {
-	//return pow(getCoef() * x, getExp());
+	//return getCoef() * pow(x, getExp());
 
-	int aux = 1;
+	int aux = 1;							// Almacenará x^exp
 
 	if (exp_ > 0)
-	for (int i = 0; i < getExp(); i++)
-		aux *= getCoef() * x;
-	else
-		aux = 0;
+		for (int i = 0; i < getExp(); i++)
+			aux *= x;						
 
-	return aux;
+	return getCoef() * aux;
 }
 
 
@@ -59,13 +62,85 @@ void Monomio::setExp(int e)
 // Operadores de inserción y extracción
 ostream& operator<<(ostream &sout, const Monomio&s)
 {
-	sout << (s.coef_ > 0) ? "+" : "-";
-	if (s.exp_ == 1)
-		sout << "x";
+	if (s.getCoef() > 0) sout << "+";
+	if (s.getExp() == 1)
+		sout << s.getCoef() << "x";
+	//else if (s.getExp() == 0)
+	//	sout << "";
 	else
-		sout << s.coef_ << "x^" << s.exp_;
+		sout << s.getCoef() << "x^" << s.getExp();
 
 	return sout;
+}
+
+istream& operator>>(istream &sin, Monomio &r)
+{
+	int aux;
+	cout << "\tCoeficiente: ";
+	sin >> aux;
+	r.setCoef(aux);
+	cout << "\tExponente: ";
+	sin >> aux;
+	r.setExp(aux);
+
+	return sin;
+}
+
+// Operadores +, -, *, /
+Monomio operator+(const Monomio &m1, const Monomio &m2)
+{
+	Monomio aux;
+
+	if (m1.getExp() == m2.getExp()) {			// Son semejantes
+		aux.setExp(m1.getExp());
+		aux.setCoef(m1.getCoef() + m2.getCoef());
+	} else
+		cout << "\255Error! No son semejantes.";
+
+	return aux;
+}
+
+Monomio operator-(const Monomio &m1, const Monomio &m2)
+{
+	Monomio aux;
+
+	if (m1.getExp() == m2.getExp()) {			// Son semejantes
+		aux.setExp(m1.getExp());
+		aux.setCoef(m1.getCoef() - m2.getCoef());
+	} else
+		cout << "\255Error! No son semejantes.";
+
+	return aux;
+}
+
+Monomio operator*(const Monomio &m1, const Monomio &m2)
+{
+	Monomio aux;
+
+	aux.setExp(m1.getExp() + m2.getExp());
+	aux.setCoef(m1.getCoef() * m2.getCoef());
+
+	return aux;
+}
+
+Monomio operator*(const Monomio &m, const int c)
+{
+	Monomio aux;
+
+	aux.setExp(m.getExp());
+	aux.setCoef(m.getCoef() * c);
+
+	return aux;
+}
+
+Monomio operator*(const int c, const Monomio &m)
+{
+	Monomio aux;
+
+	aux.setExp(m.getExp());
+	aux.setCoef(m.getCoef() * c);
+
+	return aux;
 }
 
 // Destructor
