@@ -3,10 +3,10 @@
 
 
 int main(int argc, char* argv[]) {
-
-	int o[3] = { 0, 1, 2 };
-	Polinomio p(o, 3);
-	//cout << p;
+	const int tam = 3;
+	int o[tam] = { 0, 1, 2 };
+	Polinomio p(o, tam);
+	cout << p;
 
 
 

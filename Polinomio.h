@@ -9,7 +9,7 @@ class Polinomio {
 	private:
 		int gr_;								// Grado del Polinomio
 		int ter_;								// Número de términos en el polinomio
-		Monomio m_[];							// Array de coeficientes
+		Monomio m_[100];						// Array de coeficientes
 	public:
 		Polinomio();							// Constructor por defecto, gr = 10
 		Polinomio(const int ter);				// Constructor fijando el grado

@@ -58,13 +58,26 @@ ostream& operator<<(ostream &sout, const Polinomio&p)
 
 istream& operator>>(istream &sin, Polinomio &p)
 {
-
+	int aux;
+	p.gr_ = 0;
+	cout << "N\247 de t\202rminos: ";
+	sin >> p.ter_;
+	for (int i = 0; i < p.ter_; i++) {
+		cout << "\tCoeficiente [" << i << "]: ";
+		sin >> aux;
+		p.m_[i].setCoef(aux);
+		cout << "\tExponente [" << i << "]: ";
+		sin >> aux;
+		p.m_[i].setExp(aux);
+		if (p.m_[i].getExp() > p.gr_)
+			p.gr_ = p.m_[i].getExp();
+	}
 	return sin;
 }
 
 // DESTRUCTOR
 Polinomio::~Polinomio()
 {
-	//ter_ = 0;
-	//gr_ = 0;
+	ter_ = 0;
+	gr_ = 0;
 }
