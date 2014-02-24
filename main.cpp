@@ -1,19 +1,14 @@
 #include "Header.h"
+#include "Polinomio.h"	// Clase que maneja los polinomio
+
 
 int main(int argc, char* argv[]) {
 
-	Monomio m1(-2,3);
-	Monomio m2(m1);
+	int o[3] = { 0, 1, 2 };
+	Polinomio p(o, 3);
+	//cout << p;
 
-	cout << "m1 =" << m1 << endl;
-	cout << "m2 =" << m2 << endl;
-	cout << "m1 * m2 =" << (m1 * m2) << endl;
-	cout << "m1 * 3 =" << (m1 * 3) << endl;
-	cout << "2 * m2 =" << (2 * m2) << endl;
-	cout << "m1 + m2 =" << (m1 + m2) << endl;
-	cout << "m1 - m2 =" << (m1 - m2) << endl;
 
-	cin >> m1;
 
 	cin.get();
 	return 0;

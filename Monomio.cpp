@@ -87,6 +87,14 @@ istream& operator>>(istream &sin, Monomio &r)
 }
 
 // Operadores +, -, *, /
+Monomio  Monomio::operator=(const Monomio &m)
+{
+	this->coef_ = m.coef_;
+	this->exp_ = m.exp_;
+
+	return *this;
+}
+
 Monomio operator+(const Monomio &m1, const Monomio &m2)
 {
 	Monomio aux;

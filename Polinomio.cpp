@@ -27,16 +27,13 @@ Polinomio::Polinomio(const Polinomio &p)
 // Constructor con vector de coeficientes
 Polinomio::Polinomio(int coef[], const int tam)
 {
-	Monomio m; 
-
-	gr_ = tam;
+	gr_ = tam - 1;
 	ter_ = tam;
-	m_[ter_];
+	m_[tam];
 
 	for (int i = 0; i < tam; i++) {
-		m.setCoef(coef[i]);
-		m.setExp(i);
-		m_[i] = m;
+		m_[i].setExp(i);				// Exp. Monomio
+		m_[i].setCoef(coef[i]);			// Coef. Monomio
 	}
 }
 
@@ -50,9 +47,24 @@ int Polinomio::Evaluar(int x) const
 	return aux;
 }
 
+// Operadores de inserción y extracción
+ostream& operator<<(ostream &sout, const Polinomio&p)
+{
+	for (int i = 0; i < p.ter_; i++)
+		sout << p.m_[i];
+
+	return sout;
+}
+
+istream& operator>>(istream &sin, Polinomio &p)
+{
+
+	return sin;
+}
+
 // DESTRUCTOR
 Polinomio::~Polinomio()
 {
-	ter_ = 0;
-	gr_ = 0;
+	//ter_ = 0;
+	//gr_ = 0;
 }

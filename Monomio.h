@@ -21,6 +21,7 @@ class Monomio {										// coef_ * x ^ exp_
 		friend ostream& operator<<(ostream &sout, const Monomio&s);
 		friend istream& operator>>(istream &sin, Monomio &r);
 		// Operadores +, -, *, /
+		Monomio operator=(const Monomio &m);
 		friend Monomio operator+(const Monomio &m1, const Monomio &m2);
 		friend Monomio operator-(const Monomio &m1, const Monomio &m2);
 		friend Monomio operator*(const Monomio &m1, const Monomio &m2);
