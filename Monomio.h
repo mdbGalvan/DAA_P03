@@ -1,6 +1,9 @@
 #pragma once
 #include "Header.h"
 
+#ifndef Monomio_H
+#define Monomio_H
+
 class Monomio {										// coef_ * x ^ exp_
 	private:
 		int coef_;									// Coeficiente del monomio
@@ -26,3 +29,5 @@ class Monomio {										// coef_ * x ^ exp_
 		//friend Monomio operator/(const Monomio &m1, const Monomio &m2);			// No tiene sentido éste operador puesto que el coef es int
 		~Monomio();									// Destructor
 };
+
+#endif
