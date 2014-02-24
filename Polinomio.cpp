@@ -32,8 +32,10 @@ Polinomio::Polinomio(int coef[], const int tam)
 	m_[tam];
 
 	for (int i = 0; i < tam; i++) {
-		m_[i].setExp(i);				// Exp. Monomio
-		m_[i].setCoef(coef[i]);			// Coef. Monomio
+		if (coef[i] != 0) {					// Si coef = 0, entonces no lo ingreso
+			m_[i].setExp(i);				// Exp. Monomio
+			m_[i].setCoef(coef[i]);			// Coef. Monomio
+		}
 	}
 }
 
@@ -60,7 +62,7 @@ istream& operator>>(istream &sin, Polinomio &p)
 {
 	int aux;
 	p.gr_ = 0;
-	cout << "N\247 de t\202rminos: ";
+	cout << "\tN\247 de t\202rminos: ";
 	sin >> p.ter_;
 	for (int i = 0; i < p.ter_; i++) {
 		cout << "\tCoeficiente [" << i << "]: ";
@@ -73,6 +75,33 @@ istream& operator>>(istream &sin, Polinomio &p)
 			p.gr_ = p.m_[i].getExp();
 	}
 	return sin;
+}
+
+// Operadores sobrecargados
+Polinomio Polinomio::operator+(const Polinomio &p) {
+	
+	Polinomio aux;
+
+	for (int i = 0; i < this->ter_; i++)
+	for (int j = 0; j < this->ter_; j++) {
+		if (this->m_[i].getExp() == p.m_[j].getExp())
+			aux = 
+	}
+
+
+	return aux;
+}
+
+Polinomio Polinomio::operator-(const Polinomio &p) {
+
+}
+
+Polinomio Polinomio::operator*(const Polinomio &p) {
+
+}
+
+Polinomio Polinomio::operator*(const int c) {
+
 }
 
 // DESTRUCTOR

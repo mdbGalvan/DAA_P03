@@ -22,12 +22,9 @@ class Polinomio {
 		friend ostream& operator<<(ostream &sout, const Polinomio&p);
 		friend istream& operator>>(istream &sin, Polinomio &p);
 		// Operadores +, -, *, /
-		friend Polinomio operator+(const Polinomio &m1, const Polinomio &m2);
-		friend Polinomio operator-(const Polinomio &m1, const Polinomio &m2);
-		friend Polinomio operator*(const Polinomio &m1, const Polinomio &m2);
-		friend Polinomio operator*(const Polinomio &m, const int c);
-		friend Polinomio operator*(const int c, const Polinomio &m);
-
+		Polinomio operator+(const Polinomio &p);
+		Polinomio operator-(const Polinomio &p);
+		Polinomio operator*(const Polinomio &p);
 		~Polinomio();
 };
 
