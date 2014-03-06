@@ -6,7 +6,8 @@
 #include <conio.h>
 #include <time.h>
 #include "Monomio.h"	// Clase que maneja los monomios
-
+#include "Polinomio.h"	// Clase que maneja los polinomio
+//#include "Tests.h"		// Clase que maneja los test
 
 //========================================================================================
 // Definición de tipos

@@ -1,7 +1,6 @@
 #pragma once
 #include "Header.h"
 
-
 //#ifndef Polinomio_H
 //#define Polinomio_H
 
@@ -12,7 +11,7 @@ class Polinomio {
 
 		void nulo();									// Convierte todos los coeficientes a 0
 		void aleatorio(const int min, const int max);	// Convierte todos los coeficientes en nº aleatorios entre min y max
-		void liberar();									// Liberar memoria para m_
+		void liberar();									// Liberar memoria para coef_
 		void reservar(int tam);							// Reservar memoria para coef_ 
 	public:
 		Polinomio();									// Constructor por defecto, gr = 10
