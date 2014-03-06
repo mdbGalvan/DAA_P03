@@ -16,6 +16,7 @@ void Polinomio::aleatorio(const int min, const int max){
 
 // Reservar memoria para coef_
 void Polinomio::reservar(int tam){
+	gr_ = tam - 1;
 	coef_ = new (nothrow)int[tam];
 	if (!coef_) {
 		cerr << "Error: no hay memoria";
@@ -135,6 +136,18 @@ istream& operator>>(istream &sin, Polinomio &p)
 }
 
 // Operadores sobrecargados
+Polinomio Polinomio::operator=(const Polinomio &p) {
+
+	this->liberar();
+	this->reservar(p.getTam());
+	this->gr_ = p.gr_;
+
+	for (int i = 0; i < getTam(); i++)
+		this->coef_[i] = p.coef_[i];
+
+	return *this;
+}
+
 Polinomio Polinomio::operator+(const Polinomio &p) {
 	int maxGr = 0;
 

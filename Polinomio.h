@@ -8,11 +8,6 @@ class Polinomio {
 	private:
 		int gr_;										// Grado del Polinomio
 		int *coef_;										// Array de coeficientes
-
-		void nulo();									// Convierte todos los coeficientes a 0
-		void aleatorio(const int min, const int max);	// Convierte todos los coeficientes en nº aleatorios entre min y max
-		void liberar();									// Liberar memoria para coef_
-		void reservar(int tam);							// Reservar memoria para coef_ 
 	public:
 		Polinomio();									// Constructor por defecto, gr = 10
 		Polinomio(const int gr);						// Constructor fijando el grado
@@ -25,9 +20,14 @@ class Polinomio {
 		int getTam() const;								// Devuelve el nº total de elementos del polinomio: gr + 1
 		
 		int Evaluar(int x) const;						// Evalua un polinomio en un punto
+		void liberar();									// Liberar memoria para coef_
+		void reservar(int tam);							// Reservar memoria para coef_ 
+		void nulo();									// Convierte todos los coeficientes a 0
+		void aleatorio(const int min, const int max);	// Convierte todos los coeficientes en nº aleatorios entre min y max
 
 		friend ostream& operator<<(ostream &sout, const Polinomio&p);	// Operadores de inserción
 		friend istream& operator>>(istream &sin, Polinomio &p);			// Operadores de extracción
+		Polinomio operator=(const Polinomio &p);						// Operador +
 		Polinomio operator+(const Polinomio &p);						// Operador +
 		Polinomio operator*(const Polinomio &p);						// Operador *
 		~Polinomio();
