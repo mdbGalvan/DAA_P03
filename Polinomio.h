@@ -19,14 +19,16 @@ class Polinomio {
 		Polinomio(int coef[], const int tam);	// Constructor con vector de coeficientes
 		Polinomio(const Polinomio &p);			// Constructor copia
 
+		int *getCoef() const;					// Devuelve los coeficientes del polinomio
+		int getGr() const;						// Devuelve el grado del polinomio
+		int getTam() const;						// Devuelve el nº total de elementos del polinomio: gr + 1
+		
 		int Evaluar(int x) const;				// Evalua un polinomio en un punto
 
-		// Operadores de inserción y extracción
-		friend ostream& operator<<(ostream &sout, const Polinomio&p);
-		friend istream& operator>>(istream &sin, Polinomio &p);
-		// Operadores +, -, *, /
-		Polinomio operator+(const Polinomio &p);
-		Polinomio operator*(const Polinomio &p);
+		friend ostream& operator<<(ostream &sout, const Polinomio&p);	// Operadores de inserción
+		friend istream& operator>>(istream &sin, Polinomio &p);			// Operadores de extracción
+		Polinomio operator+(const Polinomio &p);						// Operador +
+		Polinomio operator*(const Polinomio &p);						// Operador *
 		~Polinomio();
 };
 

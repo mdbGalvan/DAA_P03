@@ -3,7 +3,7 @@
 
 // Liberar memoria para coef_
 void Polinomio::nulo(){
-	for (int i = 0; i < gr_ + 1; i++)
+	for (int i = 0; i < getTam(); i++)
 		coef_[i] = 0;
 }
 
@@ -40,9 +40,9 @@ Polinomio::Polinomio(const int gr)
 Polinomio::Polinomio(const Polinomio &p)
 {
 	gr_ = p.gr_;
-	reservar(gr_ + 1);
+	reservar(getTam());
 
-	for (int i = 0; i < gr_ + 1; i++) coef_[i] = p.coef_[i];
+	for (int i = 0; i < getTam(); i++) coef_[i] = p.coef_[i];
 }
 
 // Constructor con vector de coeficientes
@@ -55,12 +55,29 @@ Polinomio::Polinomio(int coef[], const int tam)
 		coef_[i] = coef[i];
 }
 
+// MÉTODOS GET's Y SET's
+
+int *Polinomio::getCoef(void) const
+{
+	return coef_;
+}
+
+int Polinomio::getGr(void) const
+{
+	return gr_;
+}
+
+int Polinomio::getTam(void) const
+{
+	return gr_ + 1;
+}
+
 int Polinomio::Evaluar(int x) const
 {
 	int aux = 0;							// Almacenará x^exp
 	Monomio m;
 
-	for (int i = 0; i < gr_ + 1; i++) {
+	for (int i = 0; i < getTam(); i++) {
 		m.setCoef(coef_[i]);
 		m.setExp(i);
 		aux += m.Evaluar(x);
@@ -69,12 +86,14 @@ int Polinomio::Evaluar(int x) const
 	return aux;
 }
 
+// OPERADORES
+
 // Operadores de inserción y extracción
 ostream& operator<<(ostream &sout, const Polinomio&p)
 {
 	Monomio m;
 
-	for (int i = 0; i < p.gr_ + 1; i++){
+	for (int i = 0; i < p.getTam(); i++){
 		m.setCoef(p.coef_[i]);
 		m.setExp(i);
 		sout << m;
@@ -90,9 +109,9 @@ istream& operator>>(istream &sin, Polinomio &p)
 	cout << "\tGrado: ";
 	sin >> p.gr_;
 	p.liberar();
-	p.reservar(p.gr_ + 1);
+	p.reservar(p.getTam());
 
-	for (int i = 0; i < p.gr_ + 1; i++) {
+	for (int i = 0; i < p.getTam(); i++) {
 		cout << "\tP[" << i << "]: ";
 		sin >> aux;
 		p.coef_[i] = aux;
@@ -109,9 +128,9 @@ Polinomio Polinomio::operator+(const Polinomio &p) {
 	Polinomio aux(maxGr);
 
 	for (int i = 0; i < maxGr + 1; i++) {
-		if ((i < this->gr_ + 1) && (i < p.gr_ + 1))
+		if ((i < this->getTam()) && (i < p.getTam()))
 			aux.coef_[i] = this->coef_[i] + p.coef_[i];
-		else if (i < p.gr_ + 1)
+		else if (i < p.getTam())
 			aux.coef_[i] = p.coef_[i];
 		else
 			aux.coef_[i] = this->coef_[i];
@@ -120,14 +139,27 @@ Polinomio Polinomio::operator+(const Polinomio &p) {
 	return aux;
 }
 
+//Polinomio Polinomio::operator*(const Polinomio &p) {
+//	Polinomio aux(this->gr_ + p.gr_);			// Polinomio donde el término mayor es un x^(gr1 + gr2)
+//	aux.nulo();									// Iniciamos como 0 los valores del polinomio resultante
+//
+//	for (int i = 0; i < this->getTam(); i++)		// Recorro el polinomio this
+//	for (int j = 0; j < p.getTam(); j++) {		// Vamos a multiplicar cada término del p
+//		aux.coef_[i + j] += this->coef_[i] * p.coef_[j];
+//	}
+//
+//	return aux;
+//}
+
+// Algoritmo Clásico
 Polinomio Polinomio::operator*(const Polinomio &p) {
 	Polinomio aux(this->gr_ + p.gr_);			// Polinomio donde el término mayor es un x^(gr1 + gr2)
 	aux.nulo();									// Iniciamos como 0 los valores del polinomio resultante
 
-	int a, b, c;
-	for (int i = 0; i < this->gr_ + 1; i++)		// Recorro el polinomio this
-	for (int j = 0; j < p.gr_ + 1; j++) {		// Vamos a multiplicar cada término del p
-		aux.coef_[i + j] += this->coef_[i] * p.coef_[j];
+	for (int i = 0; i < aux.getTam(); i++)					// Sumatorio de i = 0 hasta 2N
+	for (int j = 0; j <= i && j < this->getTam(); j++) {	// Sumatorio de j = 0 hasta i, j < gr1
+		if ((i - j) < p.getTam())							// Si (i - j) < gr2
+			aux.coef_[i] += this->coef_[j] * p.coef_[i - j];// aux[i] = p[j]*q[i - j]
 	}
 
 	return aux;
