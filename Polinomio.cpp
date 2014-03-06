@@ -7,9 +7,16 @@ void Polinomio::nulo(){
 		coef_[i] = 0;
 }
 
+void Polinomio::aleatorio(const int min, const int max){
+	srand(time(0));
+	for (int i = 0; i < getTam(); i++)
+		// variable = limite_inferior + rand() % (limite_superior +1 - limite_inferior) ;
+		coef_[i] = min + rand() % (max + 1 - min);
+}
+
 // Reservar memoria para coef_
-void Polinomio::reservar(int n){
-	coef_ = new (nothrow)int[n];
+void Polinomio::reservar(int tam){
+	coef_ = new (nothrow)int[tam];
 	if (!coef_) {
 		cerr << "Error: no hay memoria";
 		exit(1);
@@ -34,6 +41,13 @@ Polinomio::Polinomio(const int gr)
 	gr_ = gr;
 	reservar(gr_ + 1);
 	nulo();
+}
+
+Polinomio::Polinomio(const int gr, const int min, const int max)
+{
+	gr_ = gr;
+	reservar(gr_ + 1);
+	aleatorio(min, max);
 }
 
 // Constructor Copia

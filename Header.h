@@ -4,6 +4,7 @@
 #include <fstream>		// Cabecera que tendrá la E/S por ficheros
 #include <dos.h>        // necesario para _argc y argv
 #include <conio.h>
+#include <time.h>
 #include "Monomio.h"	// Clase que maneja los monomios
 
 
