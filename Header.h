@@ -3,6 +3,7 @@
 #include <math.h>       /* pow */
 #include <fstream>		// Cabecera que tendrá la E/S por ficheros
 #include <dos.h>        // necesario para _argc y argv
+#include <string>		// Cabecera para manejar cadenas
 #include <conio.h>
 #include <time.h>
 #include "Monomio.h"	// Clase que maneja los monomios

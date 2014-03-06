@@ -93,13 +93,23 @@ void Tests::prueba(int nTest, int maxGr) {
 
 ostream& operator<<(ostream &sout, const Tests&p)
 {
-	cout << "N \t Miliseg." << endl;
-	cout << "*************" << endl;
+	cout << "\tN \t Miliseg." << endl;
+	cout << "\t******************" << endl;
 	for (int i = 0; i < p.maxGr_ + 1; i++)
-		cout << i << "\t  " << p.avg_[i] << endl;
+		cout << "\t" << i << "\t  " << p.avg_[i] << endl;
 	//printf("Segundos Transcurridos: %f s\n", difftime(final, comienzo));
 
 	return sout;
+}
+
+ofstream& Tests::write(ofstream& file)
+{
+	file << "N \t Miliseg." << endl;
+	file << "******************" << endl;
+	for (int i = 0; i < maxGr_ + 1; i++)
+		file << i << "\t  " << avg_[i] << endl;
+
+	return file;
 }
 
 // Destructor

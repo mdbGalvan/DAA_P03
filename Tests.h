@@ -28,6 +28,7 @@ class Tests {
 
 		void prueba(int nTest, int maxGr);	// Ejecución de las pruebas con los datos de los atributos para el producto de polinomios
 
+		ofstream& write(ofstream& out);		// Escribe por fichero 
 		friend ostream& operator<<(ostream &sout, const Tests&p);
 
 		~Tests();
