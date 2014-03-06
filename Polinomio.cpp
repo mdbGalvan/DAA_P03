@@ -121,12 +121,13 @@ Polinomio Polinomio::operator+(const Polinomio &p) {
 }
 
 Polinomio Polinomio::operator*(const Polinomio &p) {
-	Polinomio aux(this->gr_ + p.gr_);
-	aux.nulo();
+	Polinomio aux(this->gr_ + p.gr_ + 1);		// Polinomio donde el término mayor es un x^(gr1 + gr2)
+	aux.nulo();									// Iniciamos como 0 los valores del polinomio resultante
 
-	for (int i = 0; i < aux.gr_; i++)
-	for (int j = 0; j < i; j++) {
-		aux.coef_[i] += this->coef_[j] + p.coef_[i - j];
+	int a, b, c;
+	for (int i = 0; i < this->gr_ + 1; i++)		// Recorro el polinomio this
+	for (int j = 0; j < p.gr_ + 1; j++) {		// Vamos a multiplicar cada término del p
+		aux.coef_[i + j] += this->coef_[i] * p.coef_[j];
 	}
 
 	return aux;

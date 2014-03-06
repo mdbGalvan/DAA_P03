@@ -19,7 +19,7 @@ class Polinomio {
 		Polinomio(int coef[], const int tam);	// Constructor con vector de coeficientes
 		Polinomio(const Polinomio &p);			// Constructor copia
 
-		int Evaluar(int x) const;				// Evalua un monomio en un punto
+		int Evaluar(int x) const;				// Evalua un polinomio en un punto
 
 		// Operadores de inserción y extracción
 		friend ostream& operator<<(ostream &sout, const Polinomio&p);
