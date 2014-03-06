@@ -121,7 +121,7 @@ Polinomio Polinomio::operator+(const Polinomio &p) {
 }
 
 Polinomio Polinomio::operator*(const Polinomio &p) {
-	Polinomio aux(this->gr_ + p.gr_ + 1);		// Polinomio donde el término mayor es un x^(gr1 + gr2)
+	Polinomio aux(this->gr_ + p.gr_);			// Polinomio donde el término mayor es un x^(gr1 + gr2)
 	aux.nulo();									// Iniciamos como 0 los valores del polinomio resultante
 
 	int a, b, c;
