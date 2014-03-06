@@ -62,12 +62,12 @@ void Monomio::setExp(int e)
 // Operadores de inserción y extracción
 ostream& operator<<(ostream &sout, const Monomio&s)
 {
-	if (s.getCoef() > 0) sout << "+";
-	if (s.getExp() == 1)
+	if (s.getCoef() >= 0) sout << "+";
+	if (s.getExp() == 1)				// Si es x
 		sout << s.getCoef() << "x";
-	else if (s.getExp() == 0)
-		sout << "";
-	else
+	else if (s.getExp() == 0)			// Si es el termino independiente
+		sout << s.getCoef();
+	else								// Si es x elevado a un nº distinto de 1
 		sout << s.getCoef() << "x^" << s.getExp();
 
 	return sout;
