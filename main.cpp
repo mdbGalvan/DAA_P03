@@ -5,24 +5,49 @@ int main(int argc, char* argv[]) {
 
 	srand(time(NULL));
 
-	// N = 4, N - 1 = 3
-	Polinomio p(3, 0, 5), q(3, 0, 5);
-	cout << "p: " << p << endl;
-	cout << "q: " << q << endl;
+	Tests t;
+	int test, gr, opcion;
 
-	cout << "\n\tp * q = " << (p*q) << endl;
+	// PARÁMETROS
+	cout << "\n\n\t\t\t TEST ";
+	cout << "\n\n\t ************************************ ";
+	cout << "\n\t Numero de Pruebas por Grado: \t";
+	cin >> test;
+	cout << "\t Grado de polinomios (Gr*100): \t";
+	cin >> gr;
+	cout << "\n\t Test:\n";
+	cout << "\n\t 1. Alg.Clasico.";
+	cout << "\n\t 2. Divide y venceras: \t";
+	cin >> opcion;
 
-	int *r = mult(p.getCoef(), q.getCoef(), p.getGr() + 1);
+	if ((opcion != 2) && (opcion != 1))
+		cout << "\n\t No es una opcion correcta. \n";
+	else {
+		if (opcion == 1) t.prueba1(test, gr);
+		else t.prueba2(test, gr);
 
-	cout << "\n\tRESULTADO:\n";
-	for (int i = 0; i < 7; i++)
-		cout << " " << r[i];
+		// GUARDAR EN FICHERO
+		string file = "salida.txt";		// Nombre del archivo de la cinta de salida
+		cout << "\n\t Nombre del Fichero: \t";
+		cin >> file;
+		ofstream out;
+		out.open(file.c_str(), ofstream::out | ofstream::trunc);
+		if (out) {
+			if (opcion == 1) out << "Algoritmo Clásico" << endl;
+			else if (opcion == 2) out << "Divide y Vencerás" << endl;
+			t.write(out);
+		}
+		else
+			cout << "\n\n\t\t Error al leer escribir en el fichero.";
 
-	cout << "\n\tRESULTADO:\n";
-	cout << "\n\tp * q = " << mult(p, q, p.getGr() + 1);
+		out.close();
 
-	cout << "\n\tRESULTADO:\n";
-	cout << "\n\tp * q = " << p.mult(q, p.getGr() + 1);
+		cout << "\n\n\t\t Fin del Programa. \n";
+	}
+
+
+	// IMPRIMIR TEST POR PANTALLA
+	//cout << t;
 
 	cin.ignore();
 	cin.get();

@@ -134,7 +134,7 @@ ofstream& Tests::write(ofstream& file)
 	file << "N \t Miliseg." << endl;
 	file << "******************" << endl;
 	for (int i = 0; i < maxGr_ + 1; i++)
-		file << i << "\t  " << avg_[i] << endl;
+		file << i * 100 << "\t  " << avg_[i] << endl;
 
 	return file;
 }
