@@ -62,26 +62,53 @@ void Tests::setNTest(int nTest) {
 } 
 
 // Pruebas
-void Tests::prueba(int nTest, int maxGr) {
+void Tests::prueba1(int nTest, int maxGr) {
 	setNTest(nTest);
-	//setMinGr(minGr);
 	setMaxGr(maxGr);
 
 	Polinomio p, q;										// Creo los polinomios que se multiplicarán
 	clock_t t_ini, t_fin;
 	double secs;
 
-	for (int i = 0; i <= maxGr_; i++) {			// Por cada grado hasta el máximo, N
+	for (int i = 0; i <= maxGr_; i++) {					// Por cada grado hasta el máximo, N
 		p.liberar();
 		q.liberar();	
-		p.reservar(i + 1); 
-		q.reservar(i + 1); 
-		for (long int j = 1; j <= nTest_; j++) {			// Repetición de nTest veces por el producto con pol. de gr. i
+		p.reservar(i * 100 + 1); 
+		q.reservar(i * 100 + 1); 
+		for (long int j = 1; j <= nTest_; j++) {		// Repetición de nTest veces por el producto con pol. de gr. i
 			p.aleatorio(0, 10);	
 			q.aleatorio(0, 10); 
 
 			t_ini = clock();
-			(p * q);
+			(p * q);									// Multiplicación con el alg. clásico
+			t_fin = clock();
+
+			secs = (double)(t_fin - t_ini) / CLOCKS_PER_SEC;
+			avg_[i] += secs*1000.0;
+		}
+		avg_[i] = avg_[i] / nTest_;
+	}
+}
+
+void Tests::prueba2(int nTest, int maxGr) {
+	setNTest(nTest);
+	setMaxGr(maxGr);
+
+	Polinomio p, q;								// Creo los polinomios que se multiplicarán
+	clock_t t_ini, t_fin;
+	double secs;
+
+	for (int i = 0; i <= maxGr_; i++) {			// Por cada grado hasta el máximo, N
+		p.liberar();
+		q.liberar();
+		p.reservar(i * 100 + 1);
+		q.reservar(i * 100 + 1);
+		for (long int j = 1; j <= nTest_; j++) {			// Repetición de nTest veces por el producto con pol. de gr. i
+			p.aleatorio(0, 10);
+			q.aleatorio(0, 10);
+
+			t_ini = clock();
+			p.mult(q, p.getGr() + 1);				// Multiplicación con el divide y vencerás
 			t_fin = clock();
 
 			secs = (double)(t_fin - t_ini) / CLOCKS_PER_SEC;
@@ -96,7 +123,7 @@ ostream& operator<<(ostream &sout, const Tests&p)
 	cout << "\tN \t Miliseg." << endl;
 	cout << "\t******************" << endl;
 	for (int i = 0; i < p.maxGr_ + 1; i++)
-		cout << "\t" << i << "\t  " << p.avg_[i] << endl;
+		cout << "\t" << i * 100 << "\t  " << p.avg_[i] << endl;
 	//printf("Segundos Transcurridos: %f s\n", difftime(final, comienzo));
 
 	return sout;

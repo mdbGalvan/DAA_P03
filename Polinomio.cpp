@@ -8,7 +8,7 @@ void Polinomio::nulo(){
 }
 
 void Polinomio::aleatorio(const int min, const int max){
-	srand(time(0));
+	//srand(time(NULL));
 	for (int i = 0; i < getTam(); i++)
 		// variable = limite_inferior + rand() % (limite_superior +1 - limite_inferior) ;
 		coef_[i] = min + rand() % (max + 1 - min);
@@ -77,6 +77,11 @@ int *Polinomio::getCoef(void) const
 	return coef_;
 }
 
+int Polinomio::getCoef(int item) const
+{
+	return coef_[item];
+}
+
 int Polinomio::getGr(void) const
 {
 	return gr_;
@@ -85,6 +90,11 @@ int Polinomio::getGr(void) const
 int Polinomio::getTam(void) const
 {
 	return gr_ + 1;
+}
+
+void Polinomio::setCoef(int item, int value)
+{
+	coef_[item] = value;
 }
 
 int Polinomio::Evaluar(int x) const
@@ -190,6 +200,131 @@ Polinomio Polinomio::operator*(const Polinomio &p) {
 	}
 
 	return aux;
+}
+
+Polinomio Polinomio::mult(Polinomio q, int N)
+{
+	Polinomio pl(N / 2), ql(N / 2), ph(N / 2), qh(N / 2);
+	Polinomio aux1(N / 2), aux2(N / 2);
+	Polinomio r(2 * N - 2);							
+	Polinomio rl(N), rm(N), rh(N);
+	int i;
+
+	if (N == 1)												// Si ya no se puede dividir más devolvemos r = p * q
+	{
+		r.setCoef(0, getCoef(0) * q.getCoef(0));
+		return r;
+	}
+
+	for (i = 0; i < N / 2; i++)								// pl = p, i = 0, ..., n/2 - 1
+	{
+		pl.setCoef(i, getCoef(i));
+		ql.setCoef(i, q.getCoef(i));
+	}
+
+	for (i = N / 2; i < N; i++)								// ph*x^n/2 = p, i = n/2, ..., n - 1
+	{
+		ph.setCoef(i - N / 2, getCoef(i));
+		qh.setCoef(i - N / 2, q.getCoef(i));
+	}
+
+	for (i = 0; i < N / 2; i++) aux1.setCoef(i, pl.getCoef(i) + ph.getCoef(i));	
+	for (i = 0; i < N / 2; i++) aux2.setCoef(i, ql.getCoef(i) + qh.getCoef(i));	
+
+	rm = aux1.mult(aux2, N / 2);								// rm = rm = (pl + qh)(ql + ph) = aux1 * aux2
+	rl = pl.mult(ql, N / 2);									// rl = pl * ql
+	rh = ph.mult(qh, N / 2);									// rh = ph * qh 
+
+	for (i = 0; i < N - 1; i++) r.setCoef(i, rl.getCoef(i));				// r; i = 0, ..., N - 2
+	r.setCoef(N - 1, 0);
+	for (i = 0; i < N - 1; i++) r.setCoef(N + i, rh.getCoef(i));			// r; i = N, ..., 
+	for (i = 0; i < N - 1; i++) r.setCoef(N / 2 + i, r.getCoef(N / 2 + i) + rm.getCoef(i) - (rl.getCoef(i) + rh.getCoef(i)));
+
+	return r;
+}
+
+Polinomio mult(Polinomio p, Polinomio q, int N)
+{
+	// p = p0 + p1x + ... + p(n-1)x^(n-1)
+	int *pl = new int[N / 2], *ql = new int[N / 2], *ph = new int[N / 2], *qh = new int[N / 2];
+	int *aux1 = new int[N / 2], *aux2 = new int[N / 2];		// aux1 = (pl + qh), aux2 = (ql + ph)
+	Polinomio r(2 * N - 2);									// Resultado del producto
+	int *rl = new int[N], *rm = new int[N], *rh = new int[N];	// rl = pl * ql, rh = ph * qh, rm = (pl + qh)(ql + ph)
+	int i;
+
+	if (N == 1)												// Si ya no se puede dividir más devolvemos r = p * q
+	{
+		r.setCoef(0, p.getCoef(0) * q.getCoef(0));
+		return r;
+	}
+
+	for (i = 0; i < N / 2; i++)								// pl = p, i = 0, ..., n/2 - 1
+	{
+		pl[i] = p.getCoef(i);
+		ql[i] = q.getCoef(i);
+	}
+
+	for (i = N / 2; i < N; i++)								// ph*x^n/2 = p, i = n/2, ..., n - 1
+	{
+		ph[i - N / 2] = p.getCoef(i);
+		qh[i - N / 2] = q.getCoef(i);
+	}
+
+	for (i = 0; i < N / 2; i++) aux1[i] = pl[i] + ph[i];	// rm = aux1 * aux2, t1 = (pl + ph)
+	for (i = 0; i < N / 2; i++) aux2[i] = ql[i] + qh[i];	// rm = aux1 * aux2, aux2 = (ql + qh)
+
+	rm = mult(aux1, aux2, N / 2);							// rm = rm = (pl + qh)(ql + ph) = aux1 * aux2
+	rl = mult(pl, ql, N / 2);								// rl = pl * ql
+	rh = mult(ph, qh, N / 2);								// rh = ph * qh 
+
+	for (i = 0; i < N - 1; i++) r.setCoef(i, rl[i]);				// r; i = 0, ..., N - 2
+	r.setCoef(N - 1, 0);
+	for (i = 0; i < N - 1; i++) r.setCoef(N + i, rh[i]);			// r; i = N, ..., 
+	for (i = 0; i < N - 1; i++) r.setCoef(N / 2 + i, r.getCoef(N/2+i) + rm[i] - (rl[i] + rh[i]));
+
+	return r;
+}
+
+int* mult(int p[], int q[], int N)		// N - 1 = grado
+{
+ 														// p = p0 + p1x + ... + p(n-1)x^(n-1)
+	int *pl = new int[N / 2], *ql = new int[N / 2], *ph = new int[N / 2], *qh = new int[N / 2];
+	int *aux1 = new int[N / 2], *aux2 = new int[N / 2];		// aux1 = (pl + qh), aux2 = (ql + ph)
+	int *r = new int[2 * N - 2];							// Resultado del producto
+	int *rl = new int[N], *rm = new int[N], *rh = new int[N];	// rl = pl * ql, rh = ph * qh, rm = (pl + qh)(ql + ph)
+	int i;
+
+	if (N == 1)												// Si ya no se puede dividir más devolvemos r = p * q
+	{
+		r[0] = p[0] * q[0];
+		return r;
+	}
+
+	for (i = 0; i < N / 2; i++)								// pl = p, i = 0, ..., n/2 - 1
+	{
+		pl[i] = p[i];
+		ql[i] = q[i];
+	}
+
+	for (i = N / 2; i < N; i++)								// ph*x^n/2 = p, i = n/2, ..., n - 1
+	{
+		ph[i - N / 2] = p[i];
+		qh[i - N / 2] = q[i];
+	}
+
+	for (i = 0; i < N / 2; i++) aux1[i] = pl[i] + ph[i];	// rm = aux1 * aux2, t1 = (pl + ph)
+	for (i = 0; i < N / 2; i++) aux2[i] = ql[i] + qh[i];	// rm = aux1 * aux2, aux2 = (ql + qh)
+
+	rm = mult(aux1, aux2, N / 2);							// rm = rm = (pl + qh)(ql + ph) = aux1 * aux2
+	rl = mult(pl, ql, N / 2);								// rl = pl * ql
+	rh = mult(ph, qh, N / 2);								// rh = ph * qh 
+
+	for (i = 0; i < N - 1; i++) r[i] = rl[i];				// r; i = 0, ..., N - 2
+	r[N - 1] = 0;
+	for (i = 0; i < N - 1; i++) r[N + i] = rh[i];			// r; i = N, ..., 
+	for (i = 0; i < N - 1; i++) r[N / 2 + i] += rm[i] - (rl[i] + rh[i]);
+
+	return r;
 }
 
 // DESTRUCTOR

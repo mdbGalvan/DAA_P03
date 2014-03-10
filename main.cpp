@@ -3,31 +3,26 @@
 
 int main(int argc, char* argv[]) {
 
-	Tests t;
-	int test, gr;
+	srand(time(NULL));
 
-	// PARÁMETROS
-	cout << "\n\n\t\t\t TEST ";
-	cout << "\n\n\t ************************************ ";
-	cout << "\n\t Numero de Pruebas por Grado: \t";
-	cin >> test;
-	cout << "\t Grado de los polinomios: \t";
-	cin >> gr;
-	t.prueba(test, gr);
+	// N = 4, N - 1 = 3
+	Polinomio p(3, 0, 5), q(3, 0, 5);
+	cout << "p: " << p << endl;
+	cout << "q: " << q << endl;
 
-	// GUARDAR EN FICHERO
-	string file = "salida.txt";				// Nombre del archivo de la cinta de salida
-	//cout << "\t\t Nombre del Fichero: \t";
-	//cin >> file;
-	ofstream out;
-	out.open(file.c_str(), ofstream::out | ofstream::trunc);
-	(out) ? t.write(out) : cout << "\n\n\t\t Error al leer escribir en el fichero.";
-	out.close();
+	cout << "\n\tp * q = " << (p*q) << endl;
 
-	cout << "\n\n\t\t Fin del Programa. \n";
-	
-	// IMPRIMIR TEST POR PANTALLA
-	//cout << t;
+	int *r = mult(p.getCoef(), q.getCoef(), p.getGr() + 1);
+
+	cout << "\n\tRESULTADO:\n";
+	for (int i = 0; i < 7; i++)
+		cout << " " << r[i];
+
+	cout << "\n\tRESULTADO:\n";
+	cout << "\n\tp * q = " << mult(p, q, p.getGr() + 1);
+
+	cout << "\n\tRESULTADO:\n";
+	cout << "\n\tp * q = " << p.mult(q, p.getGr() + 1);
 
 	cin.ignore();
 	cin.get();

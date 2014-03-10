@@ -8,7 +8,7 @@ class Tests {
 	private:
 		int *avg_;					// El tiempo medio de ejecución del código en seg por grado desde 0 hasta N
 		//int minGr_;				// Nº mínimo de N
-		int maxGr_;					// Nº máximo de N para la evaluación del producto de Polinomios
+		int maxGr_;					// Nº máximo de N * 100 para la evaluación del producto de Polinomios
 		int nTest_;					// Nº de tests por cada grado distinto del producto de polinomios
 
 		void nulo();				// Convierte todos los coeficientes a 0 de avg_
@@ -26,7 +26,8 @@ class Tests {
 		//void setMinGr(int minGr);	// Modifica el valor de grado mínimo del producto
 		void setNTest(int nTest);	// Modifica el nº de tests a realizar por grado
 
-		void prueba(int nTest, int maxGr);	// Ejecución de las pruebas con los datos de los atributos para el producto de polinomios
+		void prueba1(int nTest, int maxGr);	// Ejecución de las pruebas: Producto de Polinomios (alg. Clásico)
+		void prueba2(int nTest, int maxGr);	// Ejecución de las pruebas: Producto de Polinomios (Divide y Vencerás)
 
 		ofstream& write(ofstream& out);		// Escribe por fichero 
 		friend ostream& operator<<(ostream &sout, const Tests&p);
